@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="ExternalServices\GoogleAPI\Configuration\appsettings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.Apis.Auth" Version="1.41.1" />
+    <PackageReference Include="Google.Apis.Oauth2.v2" Version="1.41.1.1602" />
+    <PackageReference Include="Google.Apis.YouTube.v3" Version="1.41.1.1699" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\YoutubeAPI.Integration.Domain\YoutubeAPI.Integration.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
