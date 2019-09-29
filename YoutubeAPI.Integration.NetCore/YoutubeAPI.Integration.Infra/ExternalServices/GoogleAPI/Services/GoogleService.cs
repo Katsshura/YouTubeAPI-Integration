@@ -3,7 +3,7 @@ using System;
 
 namespace YoutubeAPI.Integration.Infra.ExternalServices.GoogleAPI.Services
 {
-    public class GoogleServiceManager<TService> : IGoogleServiceManager<TService> where TService : BaseClientService
+    public class GoogleService<TService> : IGoogleService<TService> where TService : BaseClientService
     {
         public TService GetService()
         {

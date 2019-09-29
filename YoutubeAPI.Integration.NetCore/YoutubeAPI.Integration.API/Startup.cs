@@ -20,7 +20,7 @@ namespace YoutubeAPI__Integration
         public void ConfigureServices(IServiceCollection services)
         {
             // Google Services Configuration
-            services.AddScoped(typeof(IGoogleServiceManager<>), typeof(GoogleServiceManager<>));
+            services.AddScoped(typeof(IGoogleService<>), typeof(GoogleService<>));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

@@ -1,6 +1,6 @@
 ﻿namespace YoutubeAPI.Integration.Infra.ExternalServices.GoogleAPI.Services
 {
-    public interface IGoogleServiceManager<TService>
+    public interface IGoogleService<TService>
     {
         TService GetService();
     }

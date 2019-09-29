@@ -12,10 +12,10 @@ namespace YoutubeAPI.Integration.API.Controllers
     [ApiController]
     public class HomeController : ControllerBase
     {
-        private readonly IGoogleServiceManager<YouTubeService> youtubeConnection;
+        private readonly IGoogleService<YouTubeService> youtubeConnection;
         private readonly string token = "teste";
 
-        public HomeController(IGoogleServiceManager<YouTubeService> youtubeConnection)
+        public HomeController(IGoogleService<YouTubeService> youtubeConnection)
         {
             this.youtubeConnection = youtubeConnection;
         }
