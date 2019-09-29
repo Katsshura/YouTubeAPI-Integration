@@ -1,4 +1,5 @@
-﻿using Google.Apis.Services;
+﻿using YoutubeAPI.Integration.Infra.ExternalServices.GoogleAPI.Interfaces;
+using Google.Apis.Services;
 using System;
 
 namespace YoutubeAPI.Integration.Infra.ExternalServices.GoogleAPI.Services
