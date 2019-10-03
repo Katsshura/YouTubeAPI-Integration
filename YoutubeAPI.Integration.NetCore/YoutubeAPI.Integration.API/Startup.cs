@@ -3,7 +3,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using YoutubeAPI.Integration.Application.Services;
+using YoutubeAPI.Integration.Domain.Interfaces;
+using YoutubeAPI.Integration.Infra.ExternalServices.GoogleAPI.Interfaces;
 using YoutubeAPI.Integration.Infra.ExternalServices.GoogleAPI.Services;
+using YoutubeAPI.Integration.Infra.InternalServices;
 
 namespace YoutubeAPI__Integration
 {
@@ -19,8 +23,11 @@ namespace YoutubeAPI__Integration
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Google Services Configuration
-            services.AddScoped(typeof(IGoogleService<>), typeof(GoogleService<>));
+            // External Services Configuration
+            services.AddSingleton(typeof(IGoogleService<>), typeof(GoogleService<>));
+            services.AddSingleton<IYoutubeRepository, YoutubeRepository>();
+            services.AddSingleton<IYoutubeServiceManager, YoutubeServiceManager>();
+            services.AddScoped<IHomeApplicationService, HomeApplicationService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

@@ -3,13 +3,14 @@
     public class ChannelEntity
     {
         public string Name { get; set; }
-        public int Subscribers { get; set; }
-        public int Views { get; set; }
-        public int Videos { get; set; }
+        public ulong? Subscribers { get; set; }
+        public ulong? Views { get; set; }
+        public ulong? Videos { get; set; }
+        public dynamic Thumbnails { get; set; }
 
         public override bool Equals(object obj)
         {
-            ChannelEntity compareObj = obj as ChannelEntity;
+            if(!(obj is ChannelEntity compareObj)) { return false; }
             return this.Name.Equals(compareObj.Name);
         } 
 
