@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
+import {YoutubeService} from '../../services/youtube.service';
 
 @Component({
   selector: 'app-home',
@@ -9,7 +10,7 @@ import {Router} from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(private authService: AuthService, private router: Router, private youtubeService: YoutubeService) {
     this.authService.UserSession.subscribe(auth => {
       if (!auth) {
         this.router.navigate(['login']);
@@ -20,5 +21,4 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.authService.singOut();
   }
-
 }

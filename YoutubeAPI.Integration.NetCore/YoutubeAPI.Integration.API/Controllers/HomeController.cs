@@ -37,5 +37,11 @@ namespace YoutubeAPI.Integration.API.Controllers
             var result = await this.homeService.GetChannel(oauthToken);
             return Ok(result);
         }
+
+        [HttpGet]
+        public IActionResult teste()
+        {
+            return Ok(new { A = "A" });
+        }
     }
 }
