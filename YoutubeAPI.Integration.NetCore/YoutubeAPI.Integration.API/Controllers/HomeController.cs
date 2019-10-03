@@ -13,7 +13,6 @@ namespace YoutubeAPI.Integration.API.Controllers
     [ApiController]
     public class HomeController : ControllerBase
     {
-        private readonly string token = "teste";
         private readonly IHomeApplicationService homeService;
 
         public HomeController(IHomeApplicationService homeService)
