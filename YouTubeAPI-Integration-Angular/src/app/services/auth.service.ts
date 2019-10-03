@@ -16,9 +16,10 @@ export class AuthService {
   private readonly _user: Observable<firebase.User>;
   private readonly googleProvider: GoogleAuthProvider;
   private readonly auth: Auth = firebase.auth();
-  private token: string;
+  private readonly token_key = 'oauthToken';
 
   public get UserSession(): Observable<firebase.User> { return this._user; }
+  public get Token(): string { return localStorage.getItem(this.token_key); }
 
   constructor(private router: Router, private fireAuth: AngularFireAuth) {
     this.googleProvider = this.configGoogleProvider(GoogleScopes.YouTubeGoogleAPI.YouTube);
@@ -28,8 +29,8 @@ export class AuthService {
   public loginWithGoogle() {
     if (!this.auth.currentUser) {
       this.auth.signInWithPopup(this.googleProvider).then(res => {
-        this.token = res.credential['accessToken'];
-        console.log(this.token);
+        this.saveToken(res.credential['accessToken']);
+        console.log(this.Token);
         this.router.navigate(['home']);
       });
     }
@@ -43,5 +44,9 @@ export class AuthService {
     const provider = new firebase.auth.GoogleAuthProvider();
     scopes.forEach(scope => provider.addScope(scope));
     return provider;
+  }
+
+  private saveToken(token: string) {
+    localStorage.setItem(this.token_key, token);
   }
 }
