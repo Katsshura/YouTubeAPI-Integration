@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Google.Apis.YouTube.v3;
+﻿using Google.Apis.YouTube.v3;
 using Microsoft.AspNetCore.Mvc;
-using YoutubeAPI.Integration.Infra.ExternalServices.GoogleAPI.Services;
+using System.Collections;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using YoutubeAPI.Integration.Domain.Entities.YouTube;
+using YoutubeAPI.Integration.Domain.Enum;
+using YoutubeAPI.Integration.Domain.Interfaces;
 
 namespace YoutubeAPI.Integration.API.Controllers
 {
@@ -12,18 +13,29 @@ namespace YoutubeAPI.Integration.API.Controllers
     [ApiController]
     public class HomeController : ControllerBase
     {
-        private readonly IGoogleServiceManager<YouTubeService> youtubeConnection;
-        private readonly string token = "teste";
+        private readonly IHomeApplicationService homeService;
 
-        public HomeController(IGoogleServiceManager<YouTubeService> youtubeConnection)
+        public HomeController(IHomeApplicationService homeService)
         {
-            this.youtubeConnection = youtubeConnection;
+            this.homeService = homeService;
         }
 
-        [HttpGet]
-        public IActionResult Get()
+        [HttpGet("playlist")]
+        public async Task<ActionResult<IEnumerable<VideoEntity>>> Get([FromQuery] PlaylistType playlistType, [FromHeader] string oauthToken)
         {
-            return Ok(new { Hello = "Hello", World = "World" });
+            if(oauthToken == null) { return BadRequest(); }
+
+            var result = await this.homeService.GetPlaylistVideos(oauthToken, playlistType);
+            return Ok(result);
+        }
+
+        [HttpGet("channel")]
+        public async Task<ActionResult<ChannelEntity>> GetChannel([FromHeader] string oauthToken)
+        {
+            if (oauthToken == null) { return BadRequest(); }
+
+            var result = await this.homeService.GetChannel(oauthToken);
+            return Ok(result);
         }
     }
 }

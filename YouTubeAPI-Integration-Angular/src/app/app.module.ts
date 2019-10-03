@@ -19,13 +19,15 @@ import {registerLocaleData} from '@angular/common';
 import ptBr from '@angular/common/locales/pt';
 import { HomeComponent } from './pages/home/home.component';
 import {environment} from '../environments/environment';
+import { HighlightDirective } from './directives/highlight.directive';
 registerLocaleData(ptBr, 'pt-BR');
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    HighlightDirective
   ],
   imports: [
     BrowserModule,
