@@ -10,20 +10,13 @@ import {ChannelModel} from '../models/channel.model';
 })
 export class YoutubeService {
   private readonly api_base_url = 'http://localhost:54870';
-  private readonly httpHeaders: HttpHeaders;
 
-  constructor(auth: AuthService, private http: HttpClient) {
-    this.httpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Cache-Control': 'no-cache',
-      'oauthToken': `${auth.Token}`
-    });
-  }
+  constructor(private auth: AuthService, private http: HttpClient) {  }
 
   public async getPlaylistVideos(playlistType: PlaylistType) {
     const request_url = `${this.api_base_url}/api/home/playlist?playlistType=${playlistType}`;
     const options = {
-      headers: this.httpHeaders
+      headers: this.getHeader(true)
     };
     return new Promise<VideoModel[]>((resolve, reject) => {
       this.http.get<VideoModel[]>(request_url, options).toPromise().then(res => resolve(res));
@@ -33,10 +26,23 @@ export class YoutubeService {
   public async getChannelInformation() {
     const request_url = `${this.api_base_url}/api/home/channel`;
     const options = {
-      headers: this.httpHeaders
+      headers: this.getHeader(true)
     };
     return new Promise<ChannelModel>((resolve, reject) => {
       this.http.get<ChannelModel>(request_url, options).toPromise().then(res => resolve(res));
     });
+  }
+
+  private getHeader(oauthToken: boolean): HttpHeaders {
+    const httpHeader = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Cache-Control': 'no-cache',
+    });
+
+    if (oauthToken) {
+      return httpHeader.append('oauthToken', this.auth.Token);
+    }
+
+    return httpHeader;
   }
 }

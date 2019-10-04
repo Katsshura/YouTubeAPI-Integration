@@ -36,8 +36,9 @@ export class AuthService {
     }
   }
 
-  public singOut() {
-    this.auth.signOut().then(res => console.log(res));
+  public singOut(callback: Function) {
+    this.deleteToken(this.token_key);
+    this.auth.signOut().then(res => callback(res));
   }
 
   private configGoogleProvider(...scopes: string[]): GoogleAuthProvider {
@@ -47,6 +48,11 @@ export class AuthService {
   }
 
   private saveToken(token: string) {
+    this.deleteToken(token);
     localStorage.setItem(this.token_key, token);
+  }
+
+  private deleteToken(token: string) {
+    localStorage.removeItem(token);
   }
 }
