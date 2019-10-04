@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import {ChannelModel} from '../../models/channel.model';
 
 @Component({
   selector: 'app-channel-info',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChannelInfoComponent implements OnInit {
 
+  @Input() channel: ChannelModel;
+
   constructor() { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
 }

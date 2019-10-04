@@ -35,8 +35,8 @@ export class YoutubeService {
     const options = {
       headers: this.httpHeaders
     };
-    return new Promise<ChannelModel[]>((resolve, reject) => {
-      this.http.get<ChannelModel[]>(request_url, options).toPromise().then(res => resolve(res));
+    return new Promise<ChannelModel>((resolve, reject) => {
+      this.http.get<ChannelModel>(request_url, options).toPromise().then(res => resolve(res));
     });
   }
 }

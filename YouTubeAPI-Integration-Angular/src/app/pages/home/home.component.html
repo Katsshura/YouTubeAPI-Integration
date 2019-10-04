@@ -1,7 +1,8 @@
 <div class="background">
+  <button (click)="logout()"></button>
   <div class="wrapper row row-centered">
     <div class="container-wrapper">
-      <app-channel-info></app-channel-info>
+      <app-channel-info [channel]="channel"></app-channel-info>
     </div>
   </div>
 </div>

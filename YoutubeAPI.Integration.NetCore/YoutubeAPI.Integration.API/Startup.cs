@@ -29,8 +29,13 @@ namespace YoutubeAPI__Integration
             services.AddSingleton<IYoutubeServiceManager, YoutubeServiceManager>();
             services.AddScoped<IHomeApplicationService, HomeApplicationService>();
 
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,12 +46,8 @@ namespace YoutubeAPI__Integration
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors("MyPolicy");
             app.UseMvc();
-            app.UseCors(
-                options => options.AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader()
-            );
         }
     }
 }

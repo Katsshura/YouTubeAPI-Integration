@@ -1,7 +1,7 @@
 export class ChannelModel {
-  Name: string;
-  Subscribers?: number;
-  Views?: number;
-  Videos?: number;
-  Thumbnails: any;
+  name: string;
+  subscribers?: number;
+  views?: number;
+  videos?: number;
+  thumbnails: any;
 }
