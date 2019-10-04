@@ -1,0 +1,44 @@
+.wrapper {
+  height: 25%;
+  margin: 5%;
+  background-color: #fcfbf6;
+  padding: 10px 0 0 15px;
+  justify-content: center;
+}
+
+.vertical-align {
+  display: flex;
+  align-items: center;
+}
+
+.content {
+  margin: 5px;
+}
+
+.font-style {
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+  font-size: 16px;
+  letter-spacing: -1px;
+  word-spacing: 0px;
+  color: #000000;
+  font-weight: 700;
+  text-decoration: none;
+  font-style: normal;
+  font-variant: normal;
+  text-transform: capitalize;
+}
+
+.title {
+  letter-spacing: 4px;
+  word-spacing: 2px;
+  font-weight: 500;
+}
+
+.debug {
+  background-color: green;
+}
+
+img {
+  height: 100px;
+  width: 100px;
+}

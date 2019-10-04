@@ -1,0 +1,25 @@
+.background {
+  height:100%;
+  background-size: contain;
+  width:auto;
+  background-image: url(/assets/image/background.jpg);
+  background-position:50% 50%;
+}
+
+.wrapper {
+  width: 50%;
+  height: 100%;
+  background: white;
+  display: inline-block;
+  vertical-align: top;
+  transform: translateX(50%);
+}
+
+.container-wrapper {
+  height: 100%;
+  overflow: auto;
+}
+
+.row-centered {
+  text-align:center;
+}

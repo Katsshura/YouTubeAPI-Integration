@@ -21,6 +21,7 @@ import ptBr from '@angular/common/locales/pt';
 import { HomeComponent } from './pages/home/home.component';
 import {environment} from '../environments/environment';
 import { HighlightDirective } from './directives/highlight.directive';
+import { ChannelInfoComponent } from './components/channel-info/channel-info.component';
 registerLocaleData(ptBr, 'pt-BR');
 
 @NgModule({
@@ -28,7 +29,8 @@ registerLocaleData(ptBr, 'pt-BR');
     AppComponent,
     LoginComponent,
     HomeComponent,
-    HighlightDirective
+    HighlightDirective,
+    ChannelInfoComponent
   ],
   imports: [
     BrowserModule,

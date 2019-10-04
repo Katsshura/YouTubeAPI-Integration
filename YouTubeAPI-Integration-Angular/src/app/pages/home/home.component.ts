@@ -11,14 +11,14 @@ import {YoutubeService} from '../../services/youtube.service';
 export class HomeComponent implements OnInit {
 
   constructor(private authService: AuthService, private router: Router, private youtubeService: YoutubeService) {
-    this.authService.UserSession.subscribe(auth => {
-      if (!auth) {
-        this.router.navigate(['login']);
-      }
-    });
+    // this.authService.UserSession.subscribe(auth => {
+    //   if (!auth) {
+    //     this.router.navigate(['login']);
+    //   }
+    // });
   }
 
   ngOnInit() {
-    this.authService.singOut();
+    // this.authService.singOut();
   }
 }
