@@ -22,17 +22,15 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.channel = new ChannelModel();
-    this.channel.name = 'Katsshura dev';
-    this.channel.subscribers = 2000;
-    this.channel.views = 4000000;
-    this.channel.videos = 60;
     this.getChannel();
     // this.authService.singOut();
   }
 
   private logout() {
-    this.authService.singOut();
+    this.authService.singOut(res => {
+      console.log(res);
+      this.router.navigate(['login']);
+    });
   }
 
   private async getChannel() {

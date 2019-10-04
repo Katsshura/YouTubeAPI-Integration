@@ -1,5 +1,10 @@
 <div class="background">
-  <button (click)="logout()"></button>
+  <div class="navigation">
+    <a class="button" (click)="logout()" href="login">
+      <img src="{{channel?.thumbnails?.default?.url}}">
+      <div class="logout">LOGOUT</div>
+    </a>
+  </div>
   <div class="wrapper row row-centered">
     <div class="container-wrapper">
       <app-channel-info [channel]="channel"></app-channel-info>
