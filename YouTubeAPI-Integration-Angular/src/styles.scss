@@ -1,8 +1,24 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~bootstrap/scss/bootstrap";
 @import "app/util/bootstrap-social.css";
+@import "app/util/buttons-styles.css";
+@import '~material-design-icons/iconfont/material-icons.css';
+
 canvas { display: block; position: absolute; margin-top: 0; margin-bottom: 0; }
 
 html, body {
   height:100%;
+}
+
+.font-style {
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+  font-size: 16px;
+  letter-spacing: -1px;
+  word-spacing: 0px;
+  color: #000000;
+  font-weight: 700;
+  text-decoration: none;
+  font-style: normal;
+  font-variant: normal;
+  text-transform: capitalize;
 }

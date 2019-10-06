@@ -11,6 +11,10 @@ img {
   float: left;
 }
 
+.font-style {
+  font-weight: 400;
+}
+
 .logout {
   font-size: .8em;
   font-family: 'Oswald', sans-serif;
@@ -75,4 +79,9 @@ a {
 
 .row-centered {
   text-align:center;
+}
+
+.video-list {
+  height: 75%;
+  width: 100%;
 }

@@ -3,6 +3,7 @@ import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
 import {YoutubeService} from '../../services/youtube.service';
 import {ChannelModel} from '../../models/channel.model';
+import {PlaylistType} from '../../enums/playlist-type.enum';
 
 @Component({
   selector: 'app-home',
@@ -36,5 +37,10 @@ export class HomeComponent implements OnInit {
   private async getChannel() {
     this.channel = await this.youtubeService.getChannelInformation();
     console.log(this.channel);
+  }
+
+  getPlaylist(playlistType: string) {
+    const playlist = PlaylistType[playlistType];
+    console.log(playlist);
   }
 }
