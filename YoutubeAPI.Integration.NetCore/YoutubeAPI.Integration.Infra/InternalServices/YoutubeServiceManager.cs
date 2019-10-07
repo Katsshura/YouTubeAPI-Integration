@@ -52,7 +52,8 @@ namespace YoutubeAPI.Integration.Infra.InternalServices
                 Dislikes = video?.Statistics.DislikeCount,
                 Favorites = video?.Statistics.FavoriteCount,
                 Views = video?.Statistics.ViewCount,
-                Thumbnails = video?.Snippet?.Thumbnails
+                Thumbnails = video?.Snippet?.Thumbnails,
+                Link = string.Format("https://www.youtube.com/watch?v={0}", videoId)
             };
         }
 
