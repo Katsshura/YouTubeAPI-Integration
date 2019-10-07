@@ -1,0 +1,33 @@
+.wrapper {
+  height: 25%;
+  min-height: 190px;
+  min-width: 560px;
+  margin: 2%;
+  background-color: #fcfbf6;
+  padding: 10px 0 0 15px;
+  justify-content: center;
+}
+
+.vertical-align {
+  display: flex;
+  align-items: center;
+}
+
+.content {
+  margin: 5px;
+}
+
+.title {
+  letter-spacing: 4px;
+  word-spacing: 2px;
+  font-weight: 500;
+}
+
+.debug {
+  background-color: green;
+}
+
+img {
+  height: 100px;
+  width: 100px;
+}
