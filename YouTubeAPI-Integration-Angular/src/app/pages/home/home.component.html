@@ -29,8 +29,11 @@
             </select>
           </div>
         </div>
-
-        <app-video-details></app-video-details>
+        <hr>
+        <br>
+        <div *ngFor="let video of videos" class="mb-3">
+          <app-video-details [video]="video"></app-video-details>
+        </div>
       </div>
     </div>
   </div>
