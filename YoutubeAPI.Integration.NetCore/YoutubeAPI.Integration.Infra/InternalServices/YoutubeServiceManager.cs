@@ -43,11 +43,10 @@ namespace YoutubeAPI.Integration.Infra.InternalServices
         {
             var videoId = item?.ContentDetails?.VideoId;
             var video = this.youtubeRepository.GetVideo(oauthToken, videoId).FirstOrDefault();
-
             return new VideoEntity() {
                 ChannelName = video?.Snippet?.ChannelTitle,
                 Title = video?.Snippet?.Title,
-                Duration = XmlConvert.ToTimeSpan(video?.ContentDetails?.Duration),
+                Duration = this.GetTimeSpanFromISO8601(video?.ContentDetails?.Duration),
                 Comments = video?.Statistics.CommentCount,
                 Likes = video?.Statistics.LikeCount,
                 Dislikes = video?.Statistics.DislikeCount,
@@ -66,6 +65,18 @@ namespace YoutubeAPI.Integration.Infra.InternalServices
                 Views = item.Statistics.ViewCount,
                 Thumbnails = item.Snippet.Thumbnails
             };
+        }
+
+        private TimeSpan GetTimeSpanFromISO8601(string ISO)
+        {
+            try
+            {
+                return XmlConvert.ToTimeSpan(ISO);
+            }
+            catch (Exception)
+            {
+                return default;
+            }
         }
     }
 }
