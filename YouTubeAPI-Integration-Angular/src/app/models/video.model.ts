@@ -1,11 +1,11 @@
 export class VideoModel {
-  Title: string;
-  ChannelName: string;
-  Duration: string;
-  Thumbnails: any;
-  Likes?: number;
-  Dislikes?: number;
-  Comments?: number;
-  Views?: number;
-  Favorites?: number;
+  title: string;
+  channelName: string;
+  duration: string;
+  thumbnails: any;
+  likes?: number;
+  dislikes?: number;
+  comments?: number;
+  views?: number;
+  favorites?: number;
 }
