@@ -13,23 +13,33 @@ export class YoutubeService {
 
   constructor(private auth: AuthService, private http: HttpClient) {  }
 
-  public async getPlaylistVideos(playlistType: PlaylistType) {
+  public async getPlaylistVideos(playlistType: PlaylistType, unauthorized: Function) {
     const request_url = `${this.api_base_url}/api/home/playlist?playlistType=${playlistType}`;
     const options = {
       headers: this.getHeader(true)
     };
     return new Promise<VideoModel[]>((resolve, reject) => {
-      this.http.get<VideoModel[]>(request_url, options).toPromise().then(res => resolve(res));
+      this.http.get<VideoModel[]>(request_url, options).toPromise().then(res => resolve(res), err => {
+        if (err.status === 401) {
+          this.auth.accessTokenExpired(unauthorized);
+        }
+        console.log(err);
+      });
     });
   }
 
-  public async getChannelInformation() {
+  public async getChannelInformation(unauthorized: Function) {
     const request_url = `${this.api_base_url}/api/home/channel`;
     const options = {
       headers: this.getHeader(true)
     };
     return new Promise<ChannelModel>((resolve, reject) => {
-      this.http.get<ChannelModel>(request_url, options).toPromise().then(res => resolve(res));
+      this.http.get<ChannelModel>(request_url, options).toPromise().then(res => resolve(res), err => {
+        if (err.status === 401) {
+          this.auth.accessTokenExpired(unauthorized);
+        }
+        console.log(err);
+      });
     });
   }
 
