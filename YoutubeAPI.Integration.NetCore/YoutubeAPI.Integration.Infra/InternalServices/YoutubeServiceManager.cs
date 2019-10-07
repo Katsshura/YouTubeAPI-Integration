@@ -20,17 +20,17 @@ namespace YoutubeAPI.Integration.Infra.InternalServices
             this.youtubeRepository = youtubeRepository;
         }
 
-        public async Task<List<VideoEntity>> GetPlaylistVideos(string oauthToken, PlaylistType playlist)
+        public async Task<KeyValuePair<string, List<VideoEntity>>> GetPlaylistVideos(string oauthToken, PlaylistType playlist, string pageToken, int prefetch)
         {
             List<VideoEntity> videos = new List<VideoEntity>();
-            var rawVideos = await youtubeRepository.GetPlaylistVideos(oauthToken, playlist);
+            var rawVideos = await youtubeRepository.GetPlaylistVideos(oauthToken, playlist, pageToken, prefetch);
 
-            if (rawVideos != null)
+            if (rawVideos.Value != null)
             {
-                rawVideos.ForEach(item => videos.Add(this.Map(item, oauthToken)));
+                rawVideos.Value.ForEach(item => videos.Add(this.Map(item, oauthToken)));
             }
 
-            return videos;
+            return new KeyValuePair<string, List<VideoEntity>>(rawVideos.Key, videos);
         }
 
         public async Task<ChannelEntity> GetChannel(string oauthToken)

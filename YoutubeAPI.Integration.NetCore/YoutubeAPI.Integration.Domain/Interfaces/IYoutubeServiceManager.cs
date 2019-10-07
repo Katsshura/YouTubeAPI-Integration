@@ -7,7 +7,7 @@ namespace YoutubeAPI.Integration.Domain.Interfaces
 {
     public interface IYoutubeServiceManager
     {
-        Task<List<VideoEntity>> GetPlaylistVideos(string oauthToken, PlaylistType playlist);
+        Task<KeyValuePair<string, List<VideoEntity>>> GetPlaylistVideos(string oauthToken, PlaylistType playlist, string pageToken, int prefetch);
         Task<ChannelEntity> GetChannel(string oauthToken);
     }
 }
