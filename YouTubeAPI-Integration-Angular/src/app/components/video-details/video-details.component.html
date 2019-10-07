@@ -1,6 +1,61 @@
-<div>
-  <button class="action-button shadow animate blue">Hello</button>
-  <a class="action-button shadow animate red">How</a>
-  <a class="action-button shadow animate green">Are</a>
-  <a class="action-button shadow animate yellow">You?</a>
+<div *ngIf="video" class="card">
+  <div class="row no-gutters">
+    <div class="col-auto wrapper">
+      <img src="{{video.thumbnails['standard']?.url || video.thumbnails['default'].url}}" class="img-fluid video-wrapper">
+    </div>
+    <div class="col wrapper">
+      <div class="row">
+        <div class="col-8 mt-2">
+          <h4 class="card-title">{{video.title}}</h4>
+          <br>
+          <div class="row d-flex justify-content-center">
+            <i class="material-icons mr-2">chrome_reader_mode</i>
+            <p class="card-text mr-3">Published By: </p>
+            <p class="card-text">{{video.channelName}}</p>
+          </div>
+          <div class="row d-flex justify-content-center">
+            <i class="material-icons mr-2">timer</i>
+            <p class="card-text mr-3">Video Duration: </p>
+            <p class="card-text">{{video.duration}}</p>
+          </div>
+        </div>
+        <div class="col-4 align-self-center">
+          <div class="row">
+            <i class="material-icons mr-2">thumb_up</i>
+            <p class="mr-3">Likes:</p>
+            <p>{{video.likes}}</p>
+          </div>
+          <div class="row">
+            <i class="material-icons mr-2">thumb_down</i>
+            <p class="mr-3">Dislikes:</p>
+            <p>{{video.dislikes}}</p>
+          </div>
+          <div class="row">
+            <i class="material-icons mr-2">comment</i>
+            <p class="mr-3">Comments:</p>
+            <p>{{video.comments}}</p>
+          </div>
+          <div class="row">
+            <i class="material-icons mr-2">favorite</i>
+            <p class="mr-3">Favorites:</p>
+            <p>{{video.favorites}}</p>
+          </div>
+          <div class="row">
+            <i class="material-icons mr-2">trending_up</i>
+            <p class="mr-3">Views:</p>
+            <p>{{video.views}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer w-100 text-muted">
+    Footer stating cats are CUTE little animals
+  </div>
 </div>
+
+<!--<div class="card-block px-2">-->
+<!--  <h4 class="card-title">Title</h4>-->
+<!--  <p class="card-text">Description</p>-->
+<!--  <a href="#" class="btn btn-primary">BUTTON</a>-->
+<!--</div>-->

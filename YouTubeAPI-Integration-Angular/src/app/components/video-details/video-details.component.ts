@@ -1,4 +1,5 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {VideoModel} from '../../models/video.model';
 
 @Component({
   selector: 'app-video-details',
@@ -7,9 +8,12 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 })
 export class VideoDetailsComponent implements OnInit {
 
+  @Input() video: VideoModel;
+
   constructor() { }
 
   ngOnInit() {
+    console.log(this.video);
   }
 
 }
