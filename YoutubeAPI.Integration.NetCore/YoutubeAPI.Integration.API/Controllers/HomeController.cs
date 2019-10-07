@@ -21,12 +21,12 @@ namespace YoutubeAPI.Integration.API.Controllers
         }
 
         [HttpGet("playlist")]
-        public async Task<ActionResult<IEnumerable<VideoEntity>>> Get([FromQuery] PlaylistType playlistType, [FromHeader] string oauthToken)
+        public async Task<ActionResult<IEnumerable<VideoEntity>>> Get([FromQuery] PlaylistType playlistType, [FromHeader] string oauthToken, [FromHeader] string pageToken, [FromHeader] int prefetch)
         {
-            if (oauthToken == null) { return BadRequest(); }
+            if (HasNullOrDefaultArgs(oauthToken, pageToken) || prefetch <= 0) { return BadRequest(); }
             try
             {
-                var result = await this.homeService.GetPlaylistVideos(oauthToken, playlistType);
+                var result = await this.homeService.GetPlaylistVideos(oauthToken, playlistType, pageToken, prefetch);
                 return Ok(result);
             }
             catch (GoogleApiException ex)
@@ -47,7 +47,7 @@ namespace YoutubeAPI.Integration.API.Controllers
         [HttpGet("channel")]
         public async Task<ActionResult<ChannelEntity>> GetChannel([FromHeader] string oauthToken)
         {
-            if (oauthToken == null) { return BadRequest(); }
+            if (HasNullOrDefaultArgs(oauthToken)) { return BadRequest(); }
             try
             {
                 var result = await this.homeService.GetChannel(oauthToken);
@@ -66,6 +66,22 @@ namespace YoutubeAPI.Integration.API.Controllers
             {
                 return StatusCode(500, ex);
             }
+        }
+
+        private bool HasNullOrDefaultArgs(params object[] args)
+        {
+            bool invalid = false;
+
+            foreach (var arg in args)
+            {
+                if(arg == null || arg == default)
+                {
+                    invalid = true;
+                    break;
+                }
+            }
+
+            return invalid;
         }
     }
 }

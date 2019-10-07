@@ -17,9 +17,9 @@ namespace YoutubeAPI.Integration.Application.Services
             this.youtubeServiceManager = youtubeServiceManager;
         }
 
-        public Task<List<VideoEntity>> GetPlaylistVideos(string oauthToken, PlaylistType playlist)
+        public Task<KeyValuePair<string, List<VideoEntity>>> GetPlaylistVideos(string oauthToken, PlaylistType playlist, string pageToken, int prefetch)
         {
-            return this.youtubeServiceManager.GetPlaylistVideos(oauthToken, playlist);
+            return this.youtubeServiceManager.GetPlaylistVideos(oauthToken, playlist, pageToken, prefetch);
         }
 
         public Task<ChannelEntity> GetChannel(string oauthToken)

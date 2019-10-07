@@ -19,15 +19,15 @@ namespace YoutubeAPI.Integration.Infra.ExternalServices.GoogleAPI.Services
             Instance = googleService.GetService();
         }
 
-        public async Task<List<PlaylistItem>> GetPlaylistVideos(string oauthToken, PlaylistType playlist)
+        public async Task<KeyValuePair<string, List<PlaylistItem>>> GetPlaylistVideos(string oauthToken, PlaylistType playlist, string pageToken, int prefetch)
         {
             List<PlaylistItem> videos = new List<PlaylistItem>();
 
             var channelResponse = await this.GetChannelListRequest(oauthToken, "contentDetails").ExecuteAsync();
             var channel = channelResponse.Items.FirstOrDefault();
-            var nextPageToken = "";
+            var nextPageToken = pageToken;
 
-            while (nextPageToken != null)
+            while (nextPageToken != null && (videos.Count % prefetch != 0 || videos.Count == 0))
             {
                 var playListRequest = this.GetPlaylistRequest(oauthToken, "contentDetails", channel, playlist);
                 playListRequest.PageToken = nextPageToken;
@@ -37,12 +37,14 @@ namespace YoutubeAPI.Integration.Infra.ExternalServices.GoogleAPI.Services
                     videos.AddRange(response.Items);
                     nextPageToken = response.NextPageToken;
                 }
-                catch(Exception)
+                catch(Exception ex)
                 {
-                    return null;
+                    return default;
                 }
             }
-            return videos;
+
+            var result = new KeyValuePair<string, List<PlaylistItem>>(nextPageToken, videos);
+            return result;
         }
 
         public async Task<List<Channel>> GetChannel(string oauthToken)
