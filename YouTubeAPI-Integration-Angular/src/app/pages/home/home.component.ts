@@ -64,14 +64,14 @@ export class HomeComponent implements OnInit {
 
   private async getChannel() {
     this.isLoading = true;
-    this.channel = await this.youtubeService.getChannelInformation(this.onGoogleTokenExpired.bind(this));
+    this.channel = await this.youtubeService.getChannelInformation(this.onGoogleTokenExpired.bind(this), this.onRequestFailed.bind(this));
     this.getPlaylist(PlaylistType.Upload);
   }
 
   private async getPlaylist(playlistType: string | PlaylistType) {
     this.isLoading = true;
     const playlist = PlaylistType[playlistType];
-    this.rawVideos = await this.youtubeService.getPlaylistVideos(playlist, this.onGoogleTokenExpired.bind(this));
+    this.rawVideos = await this.youtubeService.getPlaylistVideos(playlist, this.onGoogleTokenExpired.bind(this), this.onRequestFailed.bind(this));
     this.filterVideoList(this.filter);
     this.isLoading = false;
   }
@@ -93,8 +93,13 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  private onGoogleTokenExpired(res: any) {
+  private onGoogleTokenExpired(err: any) {
     this.router.navigate(['login']);
     // TODO: Implement toast message for expiration time
+  }
+
+  private onRequestFailed(err: any) {
+    console.log(err);
+    this.isLoading = false;
   }
 }

@@ -14,8 +14,10 @@ import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { ChannelInfoComponent } from './components/channel-info/channel-info.component';
 import { VideoDetailsComponent } from './components/video-details/video-details.component';
+import { LoadingPageComponent } from './components/loading-page/loading-page.component';
 
 import {AuthService} from './services/auth.service';
+import {YoutubeService} from './services/youtube.service';
 import { HighlightDirective } from './directives/highlight.directive';
 
 
@@ -23,7 +25,6 @@ import { HighlightDirective } from './directives/highlight.directive';
 import {registerLocaleData} from '@angular/common';
 import ptBr from '@angular/common/locales/pt';
 import {environment} from '../environments/environment';
-import { LoadingPageComponent } from './components/loading-page/loading-page.component';
 registerLocaleData(ptBr, 'pt-BR');
 
 @NgModule({
@@ -49,7 +50,8 @@ registerLocaleData(ptBr, 'pt-BR');
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'pt-BR' },
-    AuthService
+    AuthService,
+    YoutubeService
   ],
   bootstrap: [AppComponent]
 })
