@@ -23,6 +23,7 @@ import { HighlightDirective } from './directives/highlight.directive';
 import {registerLocaleData} from '@angular/common';
 import ptBr from '@angular/common/locales/pt';
 import {environment} from '../environments/environment';
+import { LoadingPageComponent } from './components/loading-page/loading-page.component';
 registerLocaleData(ptBr, 'pt-BR');
 
 @NgModule({
@@ -32,7 +33,8 @@ registerLocaleData(ptBr, 'pt-BR');
     HomeComponent,
     HighlightDirective,
     ChannelInfoComponent,
-    VideoDetailsComponent
+    VideoDetailsComponent,
+    LoadingPageComponent
   ],
   imports: [
     BrowserModule,

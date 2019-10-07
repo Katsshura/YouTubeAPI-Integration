@@ -1,17 +1,21 @@
-<div *ngIf="video" class="card">
+<a>
+  <div *ngIf="video" class="card">
   <div class="row no-gutters">
     <div class="col-auto wrapper">
-      <img src="{{video.thumbnails['standard']?.url || video.thumbnails['default'].url}}" class="img-fluid video-wrapper">
+      <a *ngIf="video?.link" href="{{video?.link}}" target="_blank" rel="noopener noreferrer">
+        <img src="{{video?.thumbnails['standard']?.url || video?.thumbnails['default']?.url || '../../../assets/image/default.png'}}" class="img-fluid video-wrapper">
+      </a>
+        <img *ngIf="!video?.link" src="{{video?.thumbnails['standard']?.url || video?.thumbnails['default']?.url || '../../../assets/image/default.png'}}" class="img-fluid video-wrapper">
     </div>
     <div class="col wrapper">
       <div class="row">
         <div class="col-8 mt-2">
-          <h4 class="card-title">{{video.title}}</h4>
+          <h4 class="card-title">{{video?.title || "This video has no title"}}</h4>
           <br>
           <div class="row d-flex justify-content-center">
             <i class="material-icons mr-2">chrome_reader_mode</i>
             <p class="card-text mr-3">Published By: </p>
-            <p class="card-text">{{video.channelName}}</p>
+            <p class="card-text">{{video?.channelName || ""}}</p>
           </div>
           <div class="row d-flex justify-content-center">
             <i class="material-icons mr-2">timer</i>
@@ -23,34 +27,33 @@
           <div class="row">
             <i class="material-icons mr-2">thumb_up</i>
             <p class="mr-3">Likes:</p>
-            <p>{{video.likes}}</p>
+            <p>{{video?.likes || 0}}</p>
           </div>
           <div class="row">
             <i class="material-icons mr-2">thumb_down</i>
             <p class="mr-3">Dislikes:</p>
-            <p>{{video.dislikes}}</p>
+            <p>{{video?.dislikes || 0}}</p>
           </div>
           <div class="row">
             <i class="material-icons mr-2">comment</i>
             <p class="mr-3">Comments:</p>
-            <p>{{video.comments}}</p>
+            <p>{{video?.comments || 0}}</p>
           </div>
           <div class="row">
             <i class="material-icons mr-2">favorite</i>
             <p class="mr-3">Favorites:</p>
-            <p>{{video.favorites}}</p>
+            <p>{{video?.favorites || 0}}</p>
           </div>
           <div class="row">
             <i class="material-icons mr-2">trending_up</i>
             <p class="mr-3">Views:</p>
-            <p>{{video.views}}</p>
+            <p>{{video?.views || 0}}</p>
           </div>
         </div>
       </div>
     </div>
   </div>
   <div class="card-footer w-100 text-muted">
-    Footer stating cats are CUTE little animals
   </div>
 </div>
 
