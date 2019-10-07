@@ -14,7 +14,10 @@ import {VideoModel} from '../../models/video.model';
 export class HomeComponent implements OnInit {
 
   private channel: ChannelModel;
-  private videos: VideoModel[] = [];
+  private filtratedVideos: VideoModel[] = [];
+  private rawVideos: VideoModel[] = [];
+  private filter: string;
+  private isLoading = false;
 
   constructor(private authService: AuthService, private router: Router, private youtubeService: YoutubeService) {
     // this.authService.UserSession.subscribe(auth => {
@@ -36,7 +39,7 @@ export class HomeComponent implements OnInit {
     // console.log(this.channel);
     // const video = new VideoModel();
     // video.channelName = 'Katsshura\'s development';
-    // video.title = 'How to be a prostitute nowadays';
+    // video.title = 'How to be a * nowadays';
     // video.thumbnails = 'https://i.pinimg.com/originals/f3/6d/4d/f36d4dbec4f480a4d8bc16cebf547ae9.jpg';
     // video.duration = '12:00:00';
     // video.comments = 90;
@@ -44,12 +47,13 @@ export class HomeComponent implements OnInit {
     // video.dislikes = 3000;
     // video.favorites = 900;
     // video.views = 1200000;
+    // video.link = '#';
     //
-    // this.videos.push(video);
-    // this.videos.push(video);
-    // this.videos.push(video);
+    // this.filtratedVideos.push(video);
+    // this.filtratedVideos.push(video);
+    // this.filtratedVideos.push(video);
+
     this.getChannel();
-    // this.authService.singOut();
   }
 
   private logout() {
@@ -59,13 +63,34 @@ export class HomeComponent implements OnInit {
   }
 
   private async getChannel() {
+    this.isLoading = true;
     this.channel = await this.youtubeService.getChannelInformation(this.onGoogleTokenExpired.bind(this));
     this.getPlaylist(PlaylistType.Upload);
   }
 
   private async getPlaylist(playlistType: string | PlaylistType) {
+    this.isLoading = true;
     const playlist = PlaylistType[playlistType];
-    this.videos = await this.youtubeService.getPlaylistVideos(playlist, this.onGoogleTokenExpired.bind(this));
+    this.rawVideos = await this.youtubeService.getPlaylistVideos(playlist, this.onGoogleTokenExpired.bind(this));
+    this.filterVideoList(this.filter);
+    this.isLoading = false;
+  }
+
+  private filterVideoList(filter: string) {
+    if (filter) {
+      this.filtratedVideos =  this.rawVideos.filter(item =>
+        item.channelName.toLowerCase().indexOf(filter.toLowerCase()) >= 0
+        || item.duration.toLowerCase().indexOf(filter.toLowerCase()) >= 0
+        || item.title.toLowerCase().indexOf(filter.toLowerCase()) >= 0
+        || item.comments.toString().toLowerCase().indexOf(filter.toLowerCase()) >= 0
+        || item.likes.toString().toLowerCase().indexOf(filter.toLowerCase()) >= 0
+        || item.dislikes.toString().toLowerCase().indexOf(filter.toLowerCase()) >= 0
+        || item.favorites.toString().toLowerCase().indexOf(filter.toLowerCase()) >= 0
+        || item.views.toString().toLowerCase().indexOf(filter.toLowerCase()) >= 0
+      );
+    } else {
+      this.filtratedVideos = this.rawVideos;
+    }
   }
 
   private onGoogleTokenExpired(res: any) {

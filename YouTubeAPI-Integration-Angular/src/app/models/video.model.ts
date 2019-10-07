@@ -3,6 +3,7 @@ export class VideoModel {
   channelName: string;
   duration: string;
   thumbnails: any;
+  link: string;
   likes?: number;
   dislikes?: number;
   comments?: number;

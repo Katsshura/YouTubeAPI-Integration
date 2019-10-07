@@ -1,7 +1,14 @@
 <div class="background">
+
+  <div *ngIf="isLoading">
+    <div class="loader-background">
+      <app-loading-page [isLoading]="isLoading"></app-loading-page>
+    </div>
+  </div>
+
   <div class="navigation">
     <a class="button" (click)="logout()" href="login">
-      <img src="{{channel?.thumbnails?.default?.url}}">
+      <i class="material-icons">exit_to_app</i>
       <div class="logout">LOGOUT</div>
     </a>
   </div>
@@ -15,7 +22,7 @@
           <div class="col-6">
             <div class="mb-2">
               <label for="searchInput" class="sr-only">Search for video</label>
-              <input type="text" class="form-control" id="searchInput" placeholder="Search for video...">
+              <input #myInput type="text" class="form-control" id="searchInput" placeholder="Search for video..." (input)="filterVideoList(myInput.value)">
             </div>
           </div>
           <div class="col-6 form-inline mb-2">
@@ -31,7 +38,7 @@
         </div>
         <hr>
         <br>
-        <div *ngFor="let video of videos" class="mb-3">
+        <div *ngFor="let video of filtratedVideos" class="mb-3">
           <app-video-details [video]="video"></app-video-details>
         </div>
       </div>
