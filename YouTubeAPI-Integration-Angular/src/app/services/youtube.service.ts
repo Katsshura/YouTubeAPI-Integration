@@ -9,10 +9,11 @@ import {ChannelModel} from '../models/channel.model';
   providedIn: 'root'
 })
 export class YoutubeService {
-  private readonly prefetch = 100;
-  private pageToken = '\" \"';
-
   private readonly api_base_url = 'http://localhost:54870';
+  private readonly prefetch = 10;
+  private pageToken = null;
+
+  public get PageToken() { return this.pageToken; }
 
   constructor(private auth: AuthService, private http: HttpClient) {  }
 
@@ -50,6 +51,10 @@ export class YoutubeService {
         error(err);
       });
     });
+  }
+
+  public resetPageToken() {
+    this.pageToken = null;
   }
 
   private getHeader(oauthToken: boolean): HttpHeaders {
