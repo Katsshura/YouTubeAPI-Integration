@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../../services/auth.service';
-import {Router} from '@angular/router';
 import {YoutubeService} from '../../services/youtube.service';
+import {ToastrService} from 'ngx-toastr';
 import {ChannelModel} from '../../models/channel.model';
-import {PlaylistType} from '../../enums/playlist-type.enum';
 import {VideoModel} from '../../models/video.model';
+import {PlaylistType} from '../../enums/playlist-type.enum';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -20,10 +21,16 @@ export class HomeComponent implements OnInit {
   private isLoading = false;
   private lastPlaylist = PlaylistType.Upload;
 
-  constructor(private authService: AuthService, private router: Router, private youtubeService: YoutubeService) {
+  constructor(private authService: AuthService,
+              private router: Router,
+              private youtubeService: YoutubeService,
+              private toastr: ToastrService) {
     this.authService.UserSession.subscribe(auth => {
       if (!auth) {
-        this.router.navigate(['login']);
+        this.router.navigate(['login'])
+          .then(() => {
+            this.toastr.error('You\'re not authorized! Please Login first', 'Unauthorized');
+          });
       }
     });
   }
@@ -33,9 +40,7 @@ export class HomeComponent implements OnInit {
   }
 
   private logout() {
-    this.authService.singOut(res => {
-      this.router.navigate(['login']);
-    });
+    this.authService.singOut(this.onLogout.bind(this));
   }
 
   private async getChannel() {
@@ -84,8 +89,10 @@ export class HomeComponent implements OnInit {
   }
 
   private onGoogleTokenExpired(err: any) {
-    this.router.navigate(['login']);
-    // TODO: Implement toast message for expiration time
+    this.router.navigate(['login'])
+      .then(() => {
+        this.toastr.error('Ooops.. Your google authorization has expired :( \n Please Login again to refresh it', 'Unauthorized');
+      });
   }
 
   private onRequestFailed(err: any) {
@@ -99,5 +106,9 @@ export class HomeComponent implements OnInit {
 
   private hasVideos(): boolean {
     return this.filtratedVideos && this.filtratedVideos.length > 0;
+  }
+
+  private onLogout(res: any) {
+    this.router.navigate(['login']);
   }
 }

@@ -7,9 +7,6 @@ import {GoogleScopes} from '../util/enums/google-scopes';
 import * as firebase from 'firebase';
 import GoogleAuthProvider = firebase.auth.GoogleAuthProvider;
 import Auth = firebase.auth.Auth;
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {ChannelModel} from '../models/channel.model';
-import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -24,19 +21,18 @@ export class AuthService {
 
   public get UserSession(): Observable<firebase.User> { return this._user; }
   public get Token(): string { return localStorage.getItem(this.token_key); }
-  public get RefreshToken(): string { return localStorage.getItem(this.refresh_token_key); }
 
-  constructor(private router: Router, private fireAuth: AngularFireAuth) {
+  constructor(private fireAuth: AngularFireAuth) {
     this.googleProvider = this.configGoogleProvider(GoogleScopes.YouTubeGoogleAPI.YouTube);
     this._user = fireAuth.authState;
   }
 
-  public loginWithGoogle() {
+  public loginWithGoogle(callback: Function) {
     if (!this.auth.currentUser) {
       this.auth.signInWithPopup(this.googleProvider).then(res => {
         this.saveToken(res.credential['accessToken'], this.token_key);
         this.saveToken(res.user['refreshToken'], this.refresh_token_key);
-        this.router.navigate(['home']);
+        callback(res);
       });
     }
   }

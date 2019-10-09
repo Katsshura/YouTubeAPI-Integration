@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Config as ParticleConfig} from '../../util/particles.config';
 import {AuthService} from '../../services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 import {Router} from '@angular/router';
 
 @Component({
@@ -9,8 +10,7 @@ import {Router} from '@angular/router';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  private myParams = ParticleConfig;
-  constructor(private auth: AuthService, private router: Router) {
+  constructor(private auth: AuthService, private router: Router, private toastr: ToastrService) {
     this.auth.UserSession.subscribe(user => {
       if (user) {
         this.router.navigate(['home']);
@@ -22,6 +22,12 @@ export class LoginComponent implements OnInit {
   }
 
   public login() {
-    this.auth.loginWithGoogle();
+    this.auth.loginWithGoogle(this.navigateToHome.bind(this));
+  }
+
+  private navigateToHome() {
+    this.router.navigate(['home']).then(() => {
+      this.toastr.success('Ooops.. Your google authorization has expired :( \n Please Login again to refresh it', 'Unauthorized');
+    });
   }
 }
