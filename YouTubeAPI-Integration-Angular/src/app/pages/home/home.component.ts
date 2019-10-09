@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../../services/auth.service';
-import {Router} from '@angular/router';
 import {YoutubeService} from '../../services/youtube.service';
+import {ToastrService} from 'ngx-toastr';
 import {ChannelModel} from '../../models/channel.model';
-import {PlaylistType} from '../../enums/playlist-type.enum';
 import {VideoModel} from '../../models/video.model';
+import {PlaylistType} from '../../enums/playlist-type.enum';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -20,47 +21,26 @@ export class HomeComponent implements OnInit {
   private isLoading = false;
   private lastPlaylist = PlaylistType.Upload;
 
-  constructor(private authService: AuthService, private router: Router, private youtubeService: YoutubeService) {
-    // this.authService.UserSession.subscribe(auth => {
-    //   if (!auth) {
-    //     this.router.navigate(['login']);
-    //   }
-    // });
-
+  constructor(private authService: AuthService,
+              private router: Router,
+              private youtubeService: YoutubeService,
+              private toastr: ToastrService) {
+    this.authService.UserSession.subscribe(auth => {
+      if (!auth) {
+        this.router.navigate(['login'])
+          .then(() => {
+            this.toastr.error('You\'re not authorized! Please Login first', 'Unauthorized');
+          });
+      }
+    });
   }
 
   ngOnInit() {
-    this.channel = new ChannelModel();
-    this.channel.name = 'Katsshura';
-    this.channel.subscribers = 100;
-    this.channel.videos = 100;
-    this.channel.views = 800;
-    this.channel.thumbnails = { medium: { url: 'https://i.pinimg.com/originals/f3/6d/4d/f36d4dbec4f480a4d8bc16cebf547ae9.jpg'}};
-
-    console.log(this.channel);
-    const video = new VideoModel();
-    video.channelName = 'Katsshura\'s development';
-    video.title = 'How to be a * nowadays';
-    video.thumbnails = 'https://i.pinimg.com/originals/f3/6d/4d/f36d4dbec4f480a4d8bc16cebf547ae9.jpg';
-    video.duration = '12:00:00';
-    video.comments = 90;
-    video.likes = 10000;
-    video.dislikes = 3000;
-    video.favorites = 900;
-    video.views = 1200000;
-    video.link = '#';
-
-    this.filtratedVideos.push(video);
-    this.filtratedVideos.push(video);
-    this.filtratedVideos.push(video);
-
-    // this.getChannel();
+    this.getChannel();
   }
 
   private logout() {
-    this.authService.singOut(res => {
-      this.router.navigate(['login']);
-    });
+    this.authService.singOut(this.onLogout.bind(this));
   }
 
   private async getChannel() {
@@ -109,8 +89,10 @@ export class HomeComponent implements OnInit {
   }
 
   private onGoogleTokenExpired(err: any) {
-    this.router.navigate(['login']);
-    // TODO: Implement toast message for expiration time
+    this.router.navigate(['login'])
+      .then(() => {
+        this.toastr.error('Ooops.. Your google authorization has expired :( \n Please Login again to refresh it', 'Unauthorized');
+      });
   }
 
   private onRequestFailed(err: any) {
@@ -124,5 +106,9 @@ export class HomeComponent implements OnInit {
 
   private hasVideos(): boolean {
     return this.filtratedVideos && this.filtratedVideos.length > 0;
+  }
+
+  private onLogout(res: any) {
+    this.router.navigate(['login']);
   }
 }
