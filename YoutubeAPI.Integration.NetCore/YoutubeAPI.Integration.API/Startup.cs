@@ -9,7 +9,7 @@ using YoutubeAPI.Integration.Infra.ExternalServices.GoogleAPI.Interfaces;
 using YoutubeAPI.Integration.Infra.ExternalServices.GoogleAPI.Services;
 using YoutubeAPI.Integration.Infra.InternalServices;
 
-namespace YoutubeAPI__Integration
+namespace YoutubeAPI.Integration.API
 {
     public class Startup
     {
@@ -18,7 +18,7 @@ namespace YoutubeAPI__Integration
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        private IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
