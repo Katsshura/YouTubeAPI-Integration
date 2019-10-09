@@ -8,6 +8,8 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { ParticlesModule } from 'angular-particle';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { HttpClientModule } from '@angular/common/http';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './pages/root/app.component';
 import { HomeComponent } from './pages/home/home.component';
@@ -46,7 +48,9 @@ registerLocaleData(ptBr, 'pt-BR');
     MatGridListModule,
     ParticlesModule,
     FontAwesomeModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'pt-BR' },
