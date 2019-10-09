@@ -21,40 +21,15 @@ export class HomeComponent implements OnInit {
   private lastPlaylist = PlaylistType.Upload;
 
   constructor(private authService: AuthService, private router: Router, private youtubeService: YoutubeService) {
-    // this.authService.UserSession.subscribe(auth => {
-    //   if (!auth) {
-    //     this.router.navigate(['login']);
-    //   }
-    // });
-
+    this.authService.UserSession.subscribe(auth => {
+      if (!auth) {
+        this.router.navigate(['login']);
+      }
+    });
   }
 
   ngOnInit() {
-    this.channel = new ChannelModel();
-    this.channel.name = 'Katsshura';
-    this.channel.subscribers = 100;
-    this.channel.videos = 100;
-    this.channel.views = 800;
-    this.channel.thumbnails = { medium: { url: 'https://i.pinimg.com/originals/f3/6d/4d/f36d4dbec4f480a4d8bc16cebf547ae9.jpg'}};
-
-    console.log(this.channel);
-    const video = new VideoModel();
-    video.channelName = 'Katsshura\'s development';
-    video.title = 'How to be a * nowadays';
-    video.thumbnails = 'https://i.pinimg.com/originals/f3/6d/4d/f36d4dbec4f480a4d8bc16cebf547ae9.jpg';
-    video.duration = '12:00:00';
-    video.comments = 90;
-    video.likes = 10000;
-    video.dislikes = 3000;
-    video.favorites = 900;
-    video.views = 1200000;
-    video.link = '#';
-
-    this.filtratedVideos.push(video);
-    this.filtratedVideos.push(video);
-    this.filtratedVideos.push(video);
-
-    // this.getChannel();
+    this.getChannel();
   }
 
   private logout() {
