@@ -1,12 +1,11 @@
-﻿using YoutubeAPI.Integration.Infra.ExternalServices.GoogleAPI.Interfaces;
+﻿using Google.Apis.YouTube.v3;
+using Google.Apis.YouTube.v3.Data;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
-using Google.Apis.YouTube.v3;
-using Google.Apis.YouTube.v3.Data;
-using YoutubeAPI.Integration.Domain.Enum;
 using System.Threading.Tasks;
+using YoutubeAPI.Integration.Domain.Enum;
+using YoutubeAPI.Integration.Infra.ExternalServices.GoogleAPI.Interfaces;
 
 namespace YoutubeAPI.Integration.Infra.ExternalServices.GoogleAPI.Services
 {
@@ -21,7 +20,7 @@ namespace YoutubeAPI.Integration.Infra.ExternalServices.GoogleAPI.Services
 
         public async Task<KeyValuePair<string, List<PlaylistItem>>> GetPlaylistVideos(string oauthToken, PlaylistType playlist, string pageToken, int prefetch)
         {
-            List<PlaylistItem> videos = new List<PlaylistItem>();
+            var videos = new List<PlaylistItem>();
 
             var channelResponse = await this.GetChannelListRequest(oauthToken, "contentDetails").ExecuteAsync();
             var channel = channelResponse.Items.FirstOrDefault();
@@ -49,7 +48,7 @@ namespace YoutubeAPI.Integration.Infra.ExternalServices.GoogleAPI.Services
 
         public async Task<List<Channel>> GetChannel(string oauthToken)
         {
-            List<Channel> channels = new List<Channel>();
+            var channels = new List<Channel>();
             var channelResponse = await this.GetChannelListRequest(oauthToken, "contentDetails,statistics,snippet").ExecuteAsync();
             var channelItems = channelResponse.Items;
             channels.AddRange(channelItems);

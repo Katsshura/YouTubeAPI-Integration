@@ -1,8 +1,9 @@
-﻿using Google;
-using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Google;
+using Microsoft.AspNetCore.Mvc;
 using YoutubeAPI.Integration.Domain.Entities.YouTube;
 using YoutubeAPI.Integration.Domain.Enum;
 using YoutubeAPI.Integration.Domain.Interfaces;
@@ -13,20 +14,21 @@ namespace YoutubeAPI.Integration.API.Controllers
     [ApiController]
     public class HomeController : ControllerBase
     {
-        private readonly IHomeApplicationService homeService;
+        private readonly IHomeApplicationService _homeService;
 
         public HomeController(IHomeApplicationService homeService)
         {
-            this.homeService = homeService;
+            _homeService = homeService;
         }
 
         [HttpGet("playlist")]
-        public async Task<ActionResult<IEnumerable<VideoEntity>>> Get([FromQuery] PlaylistType playlistType, [FromHeader] string oauthToken, [FromHeader] string pageToken, [FromHeader] int prefetch)
+        public async Task<ActionResult<IEnumerable<VideoEntity>>> Get([FromQuery] PlaylistType playlistType,
+            [FromHeader] string oauthToken, [FromHeader] string pageToken, [FromHeader] int prefetch)
         {
             if (HasNullOrDefaultArgs(oauthToken, pageToken) || prefetch <= 0) { return BadRequest(); }
             try
             {
-                var result = await this.homeService.GetPlaylistVideos(oauthToken, playlistType, pageToken, prefetch);
+                var result = await _homeService.GetPlaylistVideos(oauthToken, playlistType, pageToken, prefetch);
                 return Ok(result);
             }
             catch (GoogleApiException ex)
@@ -50,7 +52,7 @@ namespace YoutubeAPI.Integration.API.Controllers
             if (HasNullOrDefaultArgs(oauthToken)) { return BadRequest(); }
             try
             {
-                var result = await this.homeService.GetChannel(oauthToken);
+                var result = await _homeService.GetChannel(oauthToken);
                 return Ok(result);
             }
             catch (GoogleApiException ex)
@@ -70,18 +72,7 @@ namespace YoutubeAPI.Integration.API.Controllers
 
         private bool HasNullOrDefaultArgs(params object[] args)
         {
-            bool invalid = false;
-
-            foreach (var arg in args)
-            {
-                if(arg == null || arg == default)
-                {
-                    invalid = true;
-                    break;
-                }
-            }
-
-            return invalid;
+            return args.Any(arg => arg == null);
         }
     }
 }

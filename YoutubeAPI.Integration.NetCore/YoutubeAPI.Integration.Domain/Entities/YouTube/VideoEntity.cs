@@ -26,7 +26,7 @@ namespace YoutubeAPI.Integration.Domain.Entities.YouTube
 
         public override string ToString()
         {
-            return this.Title.ToString();
+            return this.Title;
         }
     }
 }
