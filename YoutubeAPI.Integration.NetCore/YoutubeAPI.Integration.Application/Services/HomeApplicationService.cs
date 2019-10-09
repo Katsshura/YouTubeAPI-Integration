@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using YoutubeAPI.Integration.Domain.Entities.YouTube;
 using YoutubeAPI.Integration.Domain.Enum;
@@ -10,21 +8,21 @@ namespace YoutubeAPI.Integration.Application.Services
 {
     public class HomeApplicationService : IHomeApplicationService
     {
-        private readonly IYoutubeServiceManager youtubeServiceManager;
+        private readonly IYoutubeServiceManager _youtubeServiceManager;
 
         public HomeApplicationService(IYoutubeServiceManager youtubeServiceManager)
         {
-            this.youtubeServiceManager = youtubeServiceManager;
+            this._youtubeServiceManager = youtubeServiceManager;
         }
 
-        public Task<List<VideoEntity>> GetPlaylistVideos(string oauthToken, PlaylistType playlist)
+        public Task<KeyValuePair<string, List<VideoEntity>>> GetPlaylistVideos(string oauthToken, PlaylistType playlist, string pageToken, int prefetch)
         {
-            return this.youtubeServiceManager.GetPlaylistVideos(oauthToken, playlist);
+            return this._youtubeServiceManager.GetPlaylistVideos(oauthToken, playlist, pageToken, prefetch);
         }
 
         public Task<ChannelEntity> GetChannel(string oauthToken)
         {
-            return this.youtubeServiceManager.GetChannel(oauthToken);
+            return this._youtubeServiceManager.GetChannel(oauthToken);
         }
     }
 }

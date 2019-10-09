@@ -13,59 +13,67 @@ namespace YoutubeAPI.Integration.Infra.InternalServices
 {
     public class YoutubeServiceManager : IYoutubeServiceManager
     {
-        private readonly IYoutubeRepository youtubeRepository;
+        private readonly IYoutubeRepository _youtubeRepository;
 
         public YoutubeServiceManager(IYoutubeRepository youtubeRepository)
         {
-            this.youtubeRepository = youtubeRepository;
+            this._youtubeRepository = youtubeRepository;
         }
 
-        public async Task<List<VideoEntity>> GetPlaylistVideos(string oauthToken, PlaylistType playlist)
+        public async Task<KeyValuePair<string, List<VideoEntity>>> GetPlaylistVideos(string oauthToken, PlaylistType playlist, string pageToken, int prefetch)
         {
             List<VideoEntity> videos = new List<VideoEntity>();
-            var rawVideos = await youtubeRepository.GetPlaylistVideos(oauthToken, playlist);
+            var rawVideos = await _youtubeRepository.GetPlaylistVideos(oauthToken, playlist, pageToken, prefetch);
 
-            if (rawVideos != null)
-            {
-                rawVideos.ForEach(item => videos.Add(this.Map(item, oauthToken)));
-            }
+            rawVideos.Value?.ForEach(item => videos.Add(this.Map(item, oauthToken)));
 
-            return videos;
+            return new KeyValuePair<string, List<VideoEntity>>(rawVideos.Key, videos);
         }
 
         public async Task<ChannelEntity> GetChannel(string oauthToken)
         {
-            var rawChannels = await this.youtubeRepository.GetChannel(oauthToken);
+            var rawChannels = await this._youtubeRepository.GetChannel(oauthToken);
             return this.Map(rawChannels.FirstOrDefault());
         }
 
         private VideoEntity Map(PlaylistItem item, string oauthToken)
         {
             var videoId = item?.ContentDetails?.VideoId;
-            var video = this.youtubeRepository.GetVideo(oauthToken, videoId).FirstOrDefault();
-
+            var video = this._youtubeRepository.GetVideo(oauthToken, videoId).FirstOrDefault();
             return new VideoEntity() {
                 ChannelName = video?.Snippet?.ChannelTitle,
                 Title = video?.Snippet?.Title,
-                Duration = XmlConvert.ToTimeSpan(video?.ContentDetails?.Duration),
+                Duration = this.GetTimeSpanFromISO8601(video?.ContentDetails?.Duration),
                 Comments = video?.Statistics.CommentCount,
                 Likes = video?.Statistics.LikeCount,
                 Dislikes = video?.Statistics.DislikeCount,
                 Favorites = video?.Statistics.FavoriteCount,
                 Views = video?.Statistics.ViewCount,
-                Thumbnails = video?.Snippet?.Thumbnails
+                Thumbnails = video?.Snippet?.Thumbnails,
+                Link = $"https://www.youtube.com/watch?v={videoId}"
             };
         }
 
         private ChannelEntity Map(Channel item)
         {
-            return new ChannelEntity() {
-                Name = item.Snippet.Title,
+            return new ChannelEntity(item.Snippet.Title) {
                 Subscribers = item.Statistics.SubscriberCount,
                 Videos = item.Statistics.VideoCount,
                 Views = item.Statistics.ViewCount,
                 Thumbnails = item.Snippet.Thumbnails
             };
+        }
+
+        private TimeSpan GetTimeSpanFromISO8601(string iso)
+        {
+            try
+            {
+                return XmlConvert.ToTimeSpan(iso);
+            }
+            catch (Exception)
+            {
+                return default;
+            }
         }
     }
 }

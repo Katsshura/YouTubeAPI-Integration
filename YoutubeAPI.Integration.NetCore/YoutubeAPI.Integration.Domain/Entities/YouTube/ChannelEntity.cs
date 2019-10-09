@@ -2,11 +2,20 @@
 {
     public class ChannelEntity
     {
-        public string Name { get; set; }
+        private string Name { get; }
+
         public ulong? Subscribers { get; set; }
+
         public ulong? Views { get; set; }
+
         public ulong? Videos { get; set; }
+
         public dynamic Thumbnails { get; set; }
+
+        public ChannelEntity(string name)
+        {
+            Name = name;
+        }
 
         public override bool Equals(object obj)
         {

@@ -7,19 +7,24 @@ import { AppRoutingModule } from './app-routing.module';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { ParticlesModule } from 'angular-particle';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './pages/root/app.component';
+import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
+import { ChannelInfoComponent } from './components/channel-info/channel-info.component';
+import { VideoDetailsComponent } from './components/video-details/video-details.component';
+import { LoadingPageComponent } from './components/loading-page/loading-page.component';
 
 import {AuthService} from './services/auth.service';
+import {YoutubeService} from './services/youtube.service';
+import { HighlightDirective } from './directives/highlight.directive';
 
 
 
 import {registerLocaleData} from '@angular/common';
 import ptBr from '@angular/common/locales/pt';
-import { HomeComponent } from './pages/home/home.component';
 import {environment} from '../environments/environment';
-import { HighlightDirective } from './directives/highlight.directive';
 registerLocaleData(ptBr, 'pt-BR');
 
 @NgModule({
@@ -27,7 +32,10 @@ registerLocaleData(ptBr, 'pt-BR');
     AppComponent,
     LoginComponent,
     HomeComponent,
-    HighlightDirective
+    HighlightDirective,
+    ChannelInfoComponent,
+    VideoDetailsComponent,
+    LoadingPageComponent
   ],
   imports: [
     BrowserModule,
@@ -37,11 +45,13 @@ registerLocaleData(ptBr, 'pt-BR');
     FormsModule,
     MatGridListModule,
     ParticlesModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    HttpClientModule
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'pt-BR' },
-    AuthService
+    AuthService,
+    YoutubeService
   ],
   bootstrap: [AppComponent]
 })

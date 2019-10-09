@@ -9,6 +9,7 @@ namespace YoutubeAPI.Integration.Domain.Entities.YouTube
         public string ChannelName { get; set; }
         public TimeSpan Duration { get; set; }
         public dynamic Thumbnails { get; set; }
+        public string Link { get; set; }
         public ulong? Likes { get; set; }
         public ulong? Dislikes { get; set; }
         public ulong? Comments { get; set; }
@@ -25,7 +26,7 @@ namespace YoutubeAPI.Integration.Domain.Entities.YouTube
 
         public override string ToString()
         {
-            return this.Title.ToString();
+            return this.Title;
         }
     }
 }
