@@ -10,7 +10,7 @@ import {ChannelModel} from '../models/channel.model';
 })
 export class YoutubeService {
   private readonly api_base_url = 'http://localhost:54870';
-  private readonly prefetch = 10;
+  private readonly prefetch = 100;
   private pageToken = null;
 
   public get PageToken() { return this.pageToken; }

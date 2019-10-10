@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
 
   private navigateToHome() {
     this.router.navigate(['home']).then(() => {
-      this.toastr.success('Ooops.. Your google authorization has expired :( \n Please Login again to refresh it', 'Unauthorized');
+      this.toastr.success('Welcome, hoping you to enjoy \n share your opinion on github and help to improve', 'Welcome s2');
     });
   }
 }
