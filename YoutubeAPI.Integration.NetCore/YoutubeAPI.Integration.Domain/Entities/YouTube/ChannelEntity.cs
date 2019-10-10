@@ -2,26 +2,17 @@
 {
     public class ChannelEntity
     {
-        private string Name { get; }
-
+        public string Name { get; set; }
         public ulong? Subscribers { get; set; }
-
         public ulong? Views { get; set; }
-
         public ulong? Videos { get; set; }
-
         public dynamic Thumbnails { get; set; }
-
-        public ChannelEntity(string name)
-        {
-            Name = name;
-        }
 
         public override bool Equals(object obj)
         {
-            if(!(obj is ChannelEntity compareObj)) { return false; }
+            if (!(obj is ChannelEntity compareObj)) { return false; }
             return this.Name.Equals(compareObj.Name);
-        } 
+        }
 
         public override string ToString()
         {

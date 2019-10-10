@@ -56,7 +56,8 @@ namespace YoutubeAPI.Integration.Infra.InternalServices
 
         private ChannelEntity Map(Channel item)
         {
-            return new ChannelEntity(item.Snippet.Title) {
+            return new ChannelEntity() {
+                Name = item.Snippet.Title,
                 Subscribers = item.Statistics.SubscriberCount,
                 Videos = item.Statistics.VideoCount,
                 Views = item.Statistics.ViewCount,
