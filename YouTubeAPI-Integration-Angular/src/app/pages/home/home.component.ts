@@ -96,8 +96,10 @@ export class HomeComponent implements OnInit {
   }
 
   private onRequestFailed(err: any) {
-    console.log(err);
     this.isLoading = false;
+    const statusCode = err.status === 0 && err.statusText === 'Unknown Error' ? 404 : err.status;
+    this.toastr.error(`Ooops.. We got and error (${statusCode}) while trying to process your request :(`,
+      'Sorry, we got an error!');
   }
 
   private hasMoreVideosToLoad(): boolean {
